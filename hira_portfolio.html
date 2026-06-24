@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hira Gulzar — SQA Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0D1117;
+    --bg2: #111820;
+    --bg3: #161D27;
+    --green: #1A5C47;
+    --green-light: #2ECC8E;
+    --green-mid: #1DB373;
+    --text: #E8F5F0;
+    --text-muted: #8FA8A0;
+    --text-dim: #4A6860;
+    --border: #1E2D26;
+    --card: #131C23;
+    --red: #E05C5C;
+    --yellow: #E0B84A;
+    --blue: #4A9EE0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(13,17,23,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 18px;
+    color: var(--green-light);
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--green-light); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 64px;
+    padding: 120px 80px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(26,92,71,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(46,204,142,0.08);
+    border: 1px solid rgba(46,204,142,0.2);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--green-light);
+    margin-bottom: 24px;
+  }
+
+  .hero-badge .dot {
+    width: 7px; height: 7px;
+    background: var(--green-light);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .hero h1 .accent { color: var(--green-light); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 440px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-light);
+    color: #0D1117;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-weight: 600; font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .btn-primary:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-weight: 500; font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .btn-outline:hover { border-color: var(--green-light); color: var(--green-light); }
+
+  /* BUG CARD — signature element */
+  .bug-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    animation: floatCard 4s ease-in-out infinite;
+  }
+
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .bug-card-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot-red { width: 11px; height: 11px; border-radius: 50%; background: #FF5F57; }
+  .dot-yellow { width: 11px; height: 11px; border-radius: 50%; background: #FFBD2E; }
+  .dot-green { width: 11px; height: 11px; border-radius: 50%; background: #28CA42; }
+
+  .bug-card-title {
+    margin-left: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .bug-card-body { padding: 20px; }
+
+  .bug-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 6px 12px;
+    margin-bottom: 6px;
+  }
+
+  .bug-key { color: var(--text-dim); }
+  .bug-val { color: var(--text); }
+  .bug-val.critical { color: var(--red); }
+  .bug-val.open { color: var(--yellow); }
+  .bug-val.green { color: var(--green-light); }
+
+  .bug-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0;
+  }
+
+  .bug-steps { color: var(--text-muted); line-height: 1.8; font-size: 12px; }
+  .bug-steps span { color: var(--green-light); }
+
+  .bug-expected {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(46,204,142,0.06);
+    border-left: 2px solid var(--green-light);
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .bug-actual {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: rgba(224,92,92,0.06);
+    border-left: 2px solid var(--red);
+    border-radius: 0 6px 6px 0;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* SECTIONS */
+  section { padding: 96px 80px; }
+  section:nth-child(even) { background: var(--bg2); }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--green-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 48px;
+    line-height: 1.2;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    font-size: 16px;
+  }
+
+  .about-text strong { color: var(--text); }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+  }
+
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--green-light);
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .skill-group:hover { border-color: rgba(46,204,142,0.3); }
+
+  .skill-group-icon {
+    width: 40px; height: 40px;
+    background: rgba(26,92,71,0.3);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .skill-group h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .tag {
+    background: rgba(46,204,142,0.07);
+    border: 1px solid rgba(46,204,142,0.15);
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--green), var(--green-light));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .project-card:hover { border-color: rgba(46,204,142,0.25); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--green-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .project-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .project-card p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 18px;
+    line-height: 1.7;
+  }
+
+  .project-qa-note {
+    background: rgba(46,204,142,0.06);
+    border: 1px solid rgba(46,204,142,0.12);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+
+  .project-qa-note strong { color: var(--green-light); }
+
+  .project-tech { display: flex; flex-wrap: wrap; gap: 8px; }
+  .project-tech .tag { font-size: 11px; }
+
+  .project-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--green-light);
+    font-size: 13px;
+    text-decoration: none;
+    margin-top: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 10px; }
+
+  /* TEST CASES SECTION */
+  .testcase-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+
+  .testcase-table th {
+    background: rgba(26,92,71,0.2);
+    color: var(--green-light);
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .testcase-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(30,45,38,0.5);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+
+  .testcase-table tr:hover td { background: rgba(46,204,142,0.03); }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .badge-pass { background: rgba(46,204,142,0.12); color: var(--green-light); }
+  .badge-high { background: rgba(224,92,92,0.12); color: var(--red); }
+  .badge-med { background: rgba(224,184,74,0.12); color: var(--yellow); }
+  .badge-low { background: rgba(74,158,224,0.12); color: var(--blue); }
+
+  /* CONTACT */
+  .contact-wrapper {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .contact-wrapper .section-label { justify-content: center; display: flex; }
+  .contact-wrapper .section-title { text-align: center; }
+
+  .contact-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 36px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* FADE IN */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 20px; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 48px; }
+    section { padding: 72px 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">hira.gulzar</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#testcases">Test Cases</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <div class="dot"></div>
+      Open to SQA roles
+    </div>
+    <h1>I break things<br/>so your users<br/><span class="accent">don't have to.</span></h1>
+    <p class="hero-sub">CS graduate from UET Lahore. I build real products and test them end-to-end — from writing test cases to catching edge cases that no one else thought to check.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">View Projects →</a>
+      <a href="mailto:hiraawwww@gmail.com" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+
+  <!-- SIGNATURE ELEMENT: Live Bug Report Card -->
+  <div class="bug-card">
+    <div class="bug-card-header">
+      <div class="dot-red"></div>
+      <div class="dot-yellow"></div>
+      <div class="dot-green"></div>
+      <span class="bug-card-title">BUG-042 · Checkout Flow</span>
+    </div>
+    <div class="bug-card-body">
+      <div class="bug-row">
+        <span class="bug-key">ID</span>
+        <span class="bug-val">#BUG-042</span>
+      </div>
+      <div class="bug-row">
+        <span class="bug-key">Module</span>
+        <span class="bug-val">Payment / COD Flow</span>
+      </div>
+      <div class="bug-row">
+        <span class="bug-key">Severity</span>
+        <span class="bug-val critical">● Critical</span>
+      </div>
+      <div class="bug-row">
+        <span class="bug-key">Status</span>
+        <span class="bug-val open">⚑ Reported</span>
+      </div>
+      <div class="bug-row">
+        <span class="bug-key">Reported by</span>
+        <span class="bug-val green">Hira Gulzar</span>
+      </div>
+      <div class="bug-divider"></div>
+      <div class="bug-steps">
+        <span>Steps to Reproduce</span><br/>
+        1. Add item to cart<br/>
+        2. Select COD at checkout<br/>
+        3. Submit order<br/>
+        4. Observe confirmation screen
+      </div>
+      <div class="bug-expected">
+        ✓ Expected: Order confirmation with order ID displayed
+      </div>
+      <div class="bug-actual">
+        ✗ Actual: Blank screen, no confirmation, order still placed in DB
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">// about me</div>
+  <h2 class="section-title">Quality isn't a phase.<br/>It's how I think.</h2>
+  <div class="about-grid fade-in">
+    <div class="about-text">
+      <p>I'm <strong>Hira Gulzar</strong>, a Computer Science graduate from <strong>UET Lahore (2025)</strong> with a CGPA of 3.18. I've spent the last four years building software across the full stack — and somewhere along the way, I became the person who couldn't stop asking "but what happens when the user does this?"</p>
+      <p>As team lead for my Final Year Project <strong>ReserveHub</strong>, I ran the full SDLC — from requirements to deployment. I wrote test cases, tracked defects, and led regression cycles. I also built <strong>Layaal</strong>, a live e-commerce platform, and tested every flow myself: product listings, payment integrations, CMS data sync, mobile responsiveness.</p>
+      <p>I'm currently seeking a Junior SQA role where I can bring both my development context and my quality-first mindset to a real engineering team.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Years of project experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Projects built & tested</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Live e-commerce platform</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3.18</div>
+        <div class="stat-label">CGPA — UET Lahore</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">// technical skills</div>
+  <h2 class="section-title">What I bring to the table.</h2>
+  <div class="skills-grid fade-in">
+    <div class="skill-group">
+      <div class="skill-group-icon">🔍</div>
+      <h3>QA & Testing</h3>
+      <div class="skill-tags">
+        <span class="tag">Manual Testing</span>
+        <span class="tag">Test Case Design</span>
+        <span class="tag">Defect Reporting</span>
+        <span class="tag">Regression Testing</span>
+        <span class="tag">SDLC / STLC</span>
+        <span class="tag">UI/UX Testing</span>
+        <span class="tag">Integration Testing</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-icon">💻</div>
+      <h3>Programming</h3>
+      <div class="skill-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Java</span>
+        <span class="tag">C++</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">C</span>
+        <span class="tag">Scripting</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-icon">🌐</div>
+      <h3>Web & Frameworks</h3>
+      <div class="skill-tags">
+        <span class="tag">React.js</span>
+        <span class="tag">Next.js</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">Tailwind CSS</span>
+        <span class="tag">Express.js</span>
+        <span class="tag">Supabase</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-icon">🗄️</div>
+      <h3>Databases</h3>
+      <div class="skill-tags">
+        <span class="tag">MySQL</span>
+        <span class="tag">MongoDB</span>
+        <span class="tag">SQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-icon">🛠️</div>
+      <h3>Tools & Automation</h3>
+      <div class="skill-tags">
+        <span class="tag">Selenium</span>
+        <span class="tag">BeautifulSoup</span>
+        <span class="tag">VS Code</span>
+        <span class="tag">IntelliJ</span>
+        <span class="tag">Linux/Ubuntu</span>
+        <span class="tag">Git</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-icon">🤝</div>
+      <h3>Soft Skills</h3>
+      <div class="skill-tags">
+        <span class="tag">Team Lead</span>
+        <span class="tag">Analytical Thinking</span>
+        <span class="tag">Attention to Detail</span>
+        <span class="tag">Communication</span>
+        <span class="tag">Problem Solving</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">// projects</div>
+  <h2 class="section-title">Real work. Real testing.</h2>
+  <div class="projects-grid fade-in">
+
+    <div class="project-card">
+      <div class="project-label">Final Year Project · Team Lead</div>
+      <h3>ReserveHub</h3>
+      <p>Accommodation booking platform built with a 4-person team. I led the project as BA and QA lead — from requirements gathering through UAT and deployment.</p>
+      <div class="project-qa-note">
+        <strong>QA Work:</strong> Wrote 30+ test cases across booking, search, and authentication flows. Tracked and verified 12 defects across 3 sprint cycles. Ran full regression before final release.
+      </div>
+      <div class="project-tech">
+        <span class="tag">React.js</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">MongoDB</span>
+        <span class="tag">Express.js</span>
+        <span class="tag">Manual Testing</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-label">Live Product · Solo Build</div>
+      <h3>Layaal — E-Commerce Platform</h3>
+      <p>Full custom e-commerce storefront for a modest wear brand. Built and tested entirely solo — no pre-built templates, no shortcuts.</p>
+      <div class="project-qa-note">
+        <strong>QA Work:</strong> Tested complete checkout flows (COD + Bank Deposit), CMS data integrity between Sanity and storefront, cross-browser layout issues, and admin panel CRUD operations.
+      </div>
+      <div class="project-tech">
+        <span class="tag">Next.js</span>
+        <span class="tag">Supabase</span>
+        <span class="tag">Sanity CMS</span>
+        <span class="tag">Vercel</span>
+        <span class="tag">E2E Testing</span>
+      </div>
+      <a href="https://layaal.store" target="_blank" class="project-link">View Live Site ↗</a>
+    </div>
+
+    <div class="project-card">
+      <div class="project-label">AI Project · Python</div>
+      <h3>Attendance Management System</h3>
+      <p>AI-powered attendance tracking system using facial recognition. Validated model output accuracy and edge case behaviour.</p>
+      <div class="project-qa-note">
+        <strong>QA Work:</strong> Validated ML predictions against ground truth, tested failure modes (no face detected, poor lighting), verified database write accuracy.
+      </div>
+      <div class="project-tech">
+        <span class="tag">Python</span>
+        <span class="tag">OpenAI API</span>
+        <span class="tag">AI/ML Testing</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-label">Database Project · SQL</div>
+      <h3>Rehabilitation Center Management</h3>
+      <p>Full database-driven management system for a rehabilitation center. Heavy focus on data integrity and relational logic validation.</p>
+      <div class="project-qa-note">
+        <strong>QA Work:</strong> Tested SQL queries for correctness, validated foreign key constraints, ensured business rules enforced at DB level.
+      </div>
+      <div class="project-tech">
+        <span class="tag">MySQL</span>
+        <span class="tag">SQL Server</span>
+        <span class="tag">Data Integrity Testing</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TEST CASES SECTION -->
+<section id="testcases">
+  <div class="section-label">// sample test cases</div>
+  <h2 class="section-title">I don't just test.<br/>I document it.</h2>
+  <p style="color: var(--text-muted); margin-bottom: 40px; max-width: 560px;">Below is a sample of real test cases from the Layaal checkout flow — the kind of structured, reproducible testing I bring to every project.</p>
+
+  <div class="fade-in" style="overflow-x: auto; border-radius: 12px; border: 1px solid var(--border);">
+    <table class="testcase-table">
+      <thead>
+        <tr>
+          <th>TC ID</th>
+          <th>Test Case</th>
+          <th>Steps</th>
+          <th>Expected</th>
+          <th>Severity</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>TC-001</td>
+          <td>Add item to cart</td>
+          <td>Navigate to product → Click "Add to Cart"</td>
+          <td>Item appears in cart with correct qty & price</td>
+          <td><span class="badge badge-high">High</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>TC-002</td>
+          <td>COD order submission</td>
+          <td>Fill checkout → Select COD → Submit</td>
+          <td>Order confirmed, order ID shown, DB updated</td>
+          <td><span class="badge badge-high">Critical</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>TC-003</td>
+          <td>Bank deposit flow</td>
+          <td>Select Bank Deposit → Upload screenshot → Submit</td>
+          <td>Order marked "pending verification" in admin panel</td>
+          <td><span class="badge badge-high">High</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>TC-004</td>
+          <td>Empty cart checkout</td>
+          <td>Navigate to /checkout with empty cart</td>
+          <td>Redirect to cart page with empty state message</td>
+          <td><span class="badge badge-med">Medium</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>TC-005</td>
+          <td>Invalid phone number</td>
+          <td>Enter phone: "abcde" → Submit form</td>
+          <td>Validation error shown, form not submitted</td>
+          <td><span class="badge badge-med">Medium</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>TC-006</td>
+          <td>CMS product sync</td>
+          <td>Publish new product in Sanity → Check storefront</td>
+          <td>Product visible on storefront within 60s</td>
+          <td><span class="badge badge-high">High</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>TC-007</td>
+          <td>Mobile layout — product page</td>
+          <td>Open product on 375px viewport</td>
+          <td>No overflow, images scale correctly, CTA visible</td>
+          <td><span class="badge badge-low">Low</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+        <tr>
+          <td>TC-008</td>
+          <td>Admin: update order status</td>
+          <td>Login as admin → Change order to "Shipped"</td>
+          <td>Status updated in DB, visible on order detail</td>
+          <td><span class="badge badge-med">Medium</span></td>
+          <td><span class="badge badge-pass">Pass</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--bg);">
+  <div class="contact-wrapper fade-in">
+    <div class="section-label">// contact</div>
+    <h2 class="section-title">Let's build quality software together.</h2>
+    <p style="color: var(--text-muted);">I'm actively looking for Junior SQA Engineer roles. If you're building something and care about quality, I'd love to talk.</p>
+    <div class="contact-links">
+      <a href="mailto:hiraawwww@gmail.com" class="btn-primary">hiraawwww@gmail.com</a>
+      <a href="https://linkedin.com/in/hira-gulzar" target="_blank" class="btn-outline">LinkedIn ↗</a>
+      <a href="https://layaal.store" target="_blank" class="btn-outline">layaal.store ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span style="color: var(--text-dim);">built by</span> <span style="color: var(--green-light);">hira gulzar</span> <span style="color: var(--text-dim);">· lahore, pakistan · 2025</span>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Nav active state
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 100) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === `#${current}` ? 'var(--green-light)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
